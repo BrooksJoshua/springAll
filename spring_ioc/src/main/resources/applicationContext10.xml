@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+">
+
+    <!-- 普通方式注入对象-->
+    <!-- 1. 先定义被注入的bean -->
+    <bean id="dept" class="org.example.bean.Dept">
+        <property name="dName" value="IT"/>
+        <property name="dLeader" value="Lee"/>
+    </bean>
+    <!-- 2. 再定义引用bean， 并把刚才的bean通过ref引用绑定 -->
+    <bean id="emp" class="org.example.bean.Emp">
+        <property name="name" value="Andy"/>
+        <property name="dept" ref="dept"/>
+    </bean>
+
+    <!-- 自动装配方式注入对象-->
+    <!-- 1. 按bean名称注入，以此例，如果发现有定义beanid为dept的bean 则直接注入到emp2bean -->
+    <bean id="emp2" class="org.example.bean.Emp" autowire="byName"/>
+    <!-- 2. 按bean类型注入，以此例，如果发现有定义class=org.example.bean.Dept的bean 则直接注入到emp3 bean
+            如果有多个， 则会报错 There's more than one Bean of Type 'Dept'-->
+    <bean id="emp3" class="org.example.bean.Emp" autowire="byType"/>
+
+</beans>

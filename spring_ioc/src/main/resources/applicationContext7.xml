@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--1. 数组注入 -->
+     <bean id="stu1" class="org.example.bean.Student">
+         <property name="books">
+             <array>
+                 <value>Java</value>
+                 <value>Mysql</value>
+                 <value>Spring</value>
+                 <value>Redis</value>
+             </array>
+         </property>
+     </bean>
+
+    <!--2. list集合注入 -->
+    <bean id="stu2" class="org.example.bean.Student">
+        <property name="bookList">
+            <list>
+                <value>Java</value>
+                <value>Mysql</value>
+                <value>Mysql</value>
+                <value>Mysql</value>
+                <value>Spring</value>
+                <value>Redis</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <!--3. set集合注入,相同不会报错但是只注入一个 -->
+    <bean id="stu3" class="org.example.bean.Student">
+        <property name="bookSet">
+            <set>
+                <value>Java</value>
+                <value>Mysql</value>
+                <value>Mysql</value>
+                <value>Mysql</value>
+                <value>Spring</value>
+                <value>Redis</value>
+            </set>
+        </property>
+    </bean>
+
+    <!--4. map集合注入 -->
+    <bean id="stu4" class="org.example.bean.Student">
+        <property name="bookMap">
+            <map>
+                <description>第一个bookmap</description>
+                <entry key="db" value="mysql"/>
+                <entry key="cache" value="redis"/>
+                <entry key="framework" value="spring"/>
+                <entry key="web" value="tomcat"/>
+            </map>
+        </property>
+    </bean>
+
+
+    <!--5. list对象集合注入 -->
+    <bean id="stu5" class="org.example.bean.Student">
+        <property name="bList">
+            <list>
+                <ref bean="b1"/>
+                <ref bean="b2"/>
+                <ref bean="b3"/>
+                <ref bean="b4"/>
+                <ref bean="b5"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id = "b1" class="org.example.bean.Book" p:bname="mysql" p:author="alex"/>
+    <bean id = "b2" class="org.example.bean.Book" p:bname="java" p:author="brux"/>
+    <bean id = "b3" class="org.example.bean.Book" p:bname="tomcat" p:author="Cc"/>
+    <bean id = "b4" class="org.example.bean.Book" p:bname="redis" p:author="Dickie"/>
+    <bean id = "b5" class="org.example.bean.Book" p:bname="kafka" p:author="Elo"/>
+
+
+    <!-- 定义公共集合, 注意⚠️提前引入名称空间
+        这种方式能简化代码，较好的提高代码可读性， 当有多个对象引用同一个集合时这样定义的优势就显示出来了。
+        用这种方式实现上面 stu5 的 功能， 当然set map 等也适用
+     -->
+    <!--6 step1. 定义公共book集合 -->
+    <util:list id="outterBookList">
+        <bean id = "b6" class="org.example.bean.Book" p:bname="mysql" p:author="Franckie"/>
+        <bean id = "b7" class="org.example.bean.Book" p:bname="java" p:author="Gordon"/>
+        <bean id = "b8" class="org.example.bean.Book" p:bname="tomcat" p:author="Heather"/>
+        <bean id = "b9" class="org.example.bean.Book" p:bname="redis" p:author="Ivan"/>
+        <bean id = "b10" class="org.example.bean.Book" p:bname="kafka" p:author="Jessie"/>
+    </util:list>
+    <!--6 step2. 通过公共集合注入list对象-->
+    <bean id="stu6" class="org.example.bean.Student">
+        <property name="bList" ref="outterBookList"/>
+    </bean>
+
+</beans>

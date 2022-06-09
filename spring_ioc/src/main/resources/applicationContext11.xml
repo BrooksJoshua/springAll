@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+">
+
+    <!-- 普通方式-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+        <property name="url" value="jdbc:mysql://localhost:3306/bilibili_course?useUnicode=true&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=false"/>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+    </bean>
+
+    <!-- 读取外部属性配置文件方式， 遵循单一职责原则-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <bean id="dataSource2" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+        <property name="url" value="${url}"/>
+        <property name="driverClassName" value="${driverClassName}"/>
+    </bean>
+
+</beans>

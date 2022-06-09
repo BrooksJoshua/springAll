@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="user2" class="org.example.bean.User">
+        <constructor-arg name="userid" value="2"/>
+        <constructor-arg name="username" value="brux"/>
+        <constructor-arg name="password" value="123"/>
+    </bean>
+
+
+    <bean id="user3" class="org.example.bean.User">
+        <constructor-arg index="0" value="3"/>
+        <constructor-arg index="1" value="Cc"/>
+        <constructor-arg index="2" value="123"/>
+    </bean>
+
+
+    <bean id="user4" class="org.example.bean.User">
+        <constructor-arg index="0" name="userid"   value="4"/>
+        <constructor-arg index="1" name="username" value="Dickie"/>
+        <constructor-arg index="2" name="password" value="123"/>
+    </bean>
+
+
+
+</beans>

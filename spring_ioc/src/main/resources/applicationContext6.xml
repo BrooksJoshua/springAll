@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 配置一个日期对象 -->
+    <bean id="mousebirth" factory-bean="mousebirth1" factory-method="parse">
+        <constructor-arg name="source" value="2020-11-01 22:11:11"></constructor-arg>
+    </bean>
+    <bean id="mousebirth1" class="java.text.SimpleDateFormat">
+        <constructor-arg name="pattern" value="yyyy-MM-dd HH:mm:ss"></constructor-arg>
+    </bean>
+
+    <bean id="mouse1" class="org.example.bean.Mouse">
+        <property name="name" value="Jerry"/>
+        <!-- 日期属性赋值这样写会报错 Error creating bean with name 'mouse1' defined in class path resource [applicationContext5.xml]: Initialization of bean failed; nested exception is org.springframework.beans.ConversionNotSupportedException: Failed to convert property value of type 'java.lang.String' to required type 'java.util.Date' for property 'birthdate'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'java.util.Date' for property 'birthdate': no matching editors or conversion strategy found -->
+        <!--<property name="birthdate" value="2020-01-01"/>-->
+        <property name="birthdate" ref="mousebirth"/>
+    </bean>
+
+    <!--外部引用-->
+    <bean id="cat1" class="org.example.bean.Cat">
+        <property name="name" value="Tom"/>
+        <property name="mouse" ref="mouse1"/>
+    </bean>
+    <!--内部引用-->
+    <bean id="cat2" class="org.example.bean.Cat">
+        <property name="name" value="Tom"/>
+        <property name="mouse">
+            <bean class="org.example.bean.Mouse">
+                <property name="name" value="Jerry2"/>
+                <property name="birthdate" ref="mousebirth"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- 内部引用的变体 -->
+    <!-- 1 先定义一个mouse bean, 不赋值 -->
+    <bean id="mouse3" class="org.example.bean.Mouse">
+    </bean>
+    <!-- 2 再定义一个cat bean -->
+    <bean id="cat3" class="org.example.bean.Cat">
+        <!-- 3  让cat3引用刚刚定义的mouse3 -->
+        <property name="name" value="Tom3"/>
+        <!-- 4  内部给mouse3属性赋值 -->
+        <property name="mouse" ref="mouse3"/>
+        <property name="mouse.name" value="Jerry3"/>
+        <property name="mouse.birthdate" ref="mousebirth"/>
+    </bean>
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="user1" class="org.example.bean.User"></bean>
+    <bean id="dog1" class="org.example.bean.Dog" lazy-init="true" scope="prototype"></bean>
+
+
+    <bean id="user2" class="org.example.bean.User">
+        <property name="userid" value="1"/>
+        <property name="username" value="alex"/>
+        <property name="password" value="123"/>
+    </bean>
+
+
+</beans>
